@@ -5,14 +5,30 @@ import * as BooksAPI from "../BooksAPI";
 
 const SearchPage = () => {
   const [Books, setBooks] = useState([]);
+  const [query, setQuery] = useState("");
+
+  //initial dATA
   useEffect(() => {
     const getBooks = async () => {
       const res = await BooksAPI.getAll();
       setBooks(res);
     };
     getBooks();
-   
   }, []);
+  // SEARCH Query
+  const updateQuery = (query) => {
+    setQuery(query.trim());
+  };
+  const clearQuery = () => {
+    updateQuery("");
+  };
+  const showingBooks =
+    query === ""
+      ? Books
+      : Books.filter((c) =>
+          c.authors.toLowerCase().includes(query.toLowerCase())
+        );
+
   return (
     <div className="search-books">
       <div className="search-books-bar">
@@ -20,12 +36,17 @@ const SearchPage = () => {
           Close
         </Link>
         <div className="search-books-input-wrapper">
-          <input type="text" placeholder="Search by title, author, or ISBN" />
+          <input
+            type="text"
+            value={query}
+            onChange={(event) => updateQuery(event.target.value)}
+            placeholder="Search by title, author, or ISBN"
+          />
         </div>
       </div>
       <div className="search-books-results">
         <ol className="books-grid">
-          {Books.map((book) => {
+          {showingBooks.map((book) => {
             return (
               <li key={book.id}>
                 <Book book={book} />
