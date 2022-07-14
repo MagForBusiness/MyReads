@@ -7,7 +7,7 @@ const SearchPage = () => {
   const [Books, setBooks] = useState([]);
   const [query, setQuery] = useState("");
 
-  //initial dATA
+  //initialize dATA
   useEffect(() => {
     const getBooks = async () => {
       const res = await BooksAPI.getAll();
@@ -19,16 +19,19 @@ const SearchPage = () => {
   const updateQuery = (query) => {
     setQuery(query.trim());
   };
-  const clearQuery = () => {
-    updateQuery("");
-  };
+  // const clearQuery = () => {
+  //   updateQuery("");
+  // };
+
   const showingBooks =
     query === ""
       ? Books
-      : Books.filter((c) =>
-          c.authors.toLowerCase().includes(query.toLowerCase())
+      : Books.filter(
+          (c) =>
+            c.title.toLowerCase().includes(query.toLowerCase()) ||
+            c.authors.join("").toLowerCase().includes(query.toLowerCase() ||
+            c.industryIdentifiers.join("").identifier.toLowerCase().includes(query.toLowerCase() ))
         );
-
   return (
     <div className="search-books">
       <div className="search-books-bar">
@@ -38,9 +41,9 @@ const SearchPage = () => {
         <div className="search-books-input-wrapper">
           <input
             type="text"
-            value={query}
+            // value={query}
             onChange={(event) => updateQuery(event.target.value)}
-            placeholder="Search by title, author, or ISBN"
+            placeholder="Search by title or author"
           />
         </div>
       </div>
