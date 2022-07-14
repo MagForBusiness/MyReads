@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const Book = ({ book }) => {
+const Book = ({ book, UpdateShelve }) => {
   return (
     <div className="book">
       <div className="book-top">
