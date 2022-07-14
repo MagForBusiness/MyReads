@@ -1,14 +1,14 @@
 import "./App.css";
 import React from "react";
 import { useState, useEffect } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import SearchPage from "./components/SearchPage";
 import Book from "./components/Book";
 import * as BooksAPI from "./BooksAPI";
 
 const App = () => {
   const [Books, setBooks] = useState([]);
-
+  let navigate = useNavigate();
   //initialize dATA
   useEffect(() => {
     const getBooks = async () => {
@@ -17,10 +17,11 @@ const App = () => {
     };
     getBooks();
   }, []);
-//handel update
- const UpdateShelve = async (book, shelve) => {
-   await BooksAPI.update(book, shelve);
- };
+  //handel update
+  const UpdateShelve = async (b, shelve) => {
+    await BooksAPI.update(b, shelve);
+    navigate("/");
+  };
   return (
     <>
       <Routes>
@@ -43,7 +44,7 @@ const App = () => {
                           {Books.filter(
                             (b) => b.shelf === "currentlyReading"
                           ).map((bookE) => (
-                            <li>
+                            <li key={bookE.id}>
                               <Book book={bookE} UpdateShelve={UpdateShelve} />
                             </li>
                           ))}
@@ -56,8 +57,11 @@ const App = () => {
                         <ol className="books-grid">
                           {Books.filter((b) => b.shelf === "wantToRead").map(
                             (bookE) => (
-                              <li>
-                                <Book book={bookE} />
+                              <li key={bookE.id}>
+                                <Book
+                                  book={bookE}
+                                  UpdateShelve={UpdateShelve}
+                                />
                               </li>
                             )
                           )}
@@ -70,8 +74,11 @@ const App = () => {
                         <ol className="books-grid">
                           {Books.filter((b) => b.shelf === "read").map(
                             (bookE) => (
-                              <li>
-                                <Book book={bookE} />
+                              <li key={bookE.id}>
+                                <Book
+                                  book={bookE}
+                                  UpdateShelve={UpdateShelve}
+                                />
                               </li>
                             )
                           )}

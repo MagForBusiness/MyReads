@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import Book from "./Book";
 import * as BooksAPI from "../BooksAPI";
@@ -6,7 +6,7 @@ import * as BooksAPI from "../BooksAPI";
 const SearchPage = () => {
   const [Books, setBooks] = useState([]);
   const [query, setQuery] = useState("");
-
+  let navigate = useNavigate();
   //initialize dATA
   useEffect(() => {
     const getBooks = async () => {
@@ -23,14 +23,26 @@ const SearchPage = () => {
   //   updateQuery("");
   // };
 
+  const UpdateShelve = async (b, shelve) => {
+    await BooksAPI.update(b, shelve);
+    navigate("/");
+  };
   const showingBooks =
     query === ""
       ? Books
       : Books.filter(
           (c) =>
             c.title.toLowerCase().includes(query.toLowerCase()) ||
-            c.authors.join("").toLowerCase().includes(query.toLowerCase() ||
-            c.industryIdentifiers.join("").identifier.toLowerCase().includes(query.toLowerCase() ))
+            c.authors
+              .join("")
+              .toLowerCase()
+              .includes(
+                query.toLowerCase() ||
+                  c.industryIdentifiers
+                    .join("")
+                    .identifier.toLowerCase()
+                    .includes(query.toLowerCase())
+              )
         );
   return (
     <div className="search-books">
@@ -52,7 +64,7 @@ const SearchPage = () => {
           {showingBooks.map((book) => {
             return (
               <li key={book.id}>
-                <Book book={book} />
+                <Book book={book} UpdateShelve={UpdateShelve} />
               </li>
             );
           })}
