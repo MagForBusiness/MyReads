@@ -8,24 +8,17 @@ const SearchPage = () => {
   const [query, setQuery] = useState("");
   let navigate = useNavigate();
   //initialize dATA
-  const searchresult = async (query) => {
-    setQuery(query.trim());
-    const res = await BooksAPI.search(query);
-    console.log(res.error);
-    if (res.error !== "empty query") {
+  useEffect(() => {
+    const getBooks = async () => {
+      const res = await BooksAPI.getAll();
       setBooks(res);
-    } else {
-      setBooks([]);
-    }
+    };
+    getBooks();
+  }, []);
+  // SEARCH Query
+  const updateQuery = (query) => {
+    setQuery(query.trim());
   };
-  const fillBooks = (query) => {
-    if (query === "") {
-      setBooks([]);
-    } else {
-      searchresult(query);
-    }
-  };
-
   // const clearQuery = () => {
   //   updateQuery("");
   // };
@@ -34,7 +27,23 @@ const SearchPage = () => {
     await BooksAPI.update(b, shelve);
     navigate("/");
   };
-
+  const showingBooks =
+    query === ""
+      ? Books
+      : Books.filter(
+          (c) =>
+            c.title.toLowerCase().includes(query.toLowerCase()) ||
+            c.authors
+              .join("")
+              .toLowerCase()
+              .includes(
+                query.toLowerCase() ||
+                  c.industryIdentifiers
+                    .join("")
+                    .identifier.toLowerCase()
+                    .includes(query.toLowerCase())
+              )
+        );
   return (
     <div className="search-books">
       <div className="search-books-bar">
@@ -45,14 +54,14 @@ const SearchPage = () => {
           <input
             type="text"
             // value={query}
-            onChange={(event) => fillBooks(event.target.value)}
+            onChange={(event) => updateQuery(event.target.value)}
             placeholder="Search by title or author"
           />
         </div>
       </div>
       <div className="search-books-results">
         <ol className="books-grid">
-          {Books.map((book) => {
+          {showingBooks.map((book) => {
             return (
               <li key={book.id}>
                 <Book book={book} UpdateShelve={UpdateShelve} />
