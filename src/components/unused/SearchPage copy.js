@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import Book from "./Book";
-import * as BooksAPI from "../BooksAPI";
+import Book from "../Book";
+import * as BooksAPI from "../../BooksAPI";
 
 const SearchPage = () => {
   const [Books, setBooks] = useState([]);

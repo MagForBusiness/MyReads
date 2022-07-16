@@ -1,14 +1,9 @@
 import { useState } from "react";
+import React from "react";
+import {BookOption} from "./BookOption"
 
-const Book = ({ book, UpdateShelve }) => {
-  const [Select, setSelect] = useState(book.shelf);
-  const handleChange = (event) => {
-    setSelect(event.target.value);
-    console.log(Select,book.id);
-    UpdateShelve(book, setSelect);
-
-  };
-
+const Book = ({ book,  }) => {
+  
 
   return (
     <div className="book">
@@ -18,20 +13,15 @@ const Book = ({ book, UpdateShelve }) => {
           style={{
             width: 128,
             height: 193,
-            backgroundImage: `url(${book.imageLinks.thumbnail})`,
+            backgroundImage: `url(${
+              !book.imageLinks
+                ? //blank background imageLinks if not existing
+                  `"http://books.google.com/books/content?id=73kNFV4sDx8C&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api`
+                : book.imageLinks.thumbnail
+            })`,
           }}
         ></div>
-        <div className="book-shelf-changer">
-          <select value={Select} onChange={handleChange}>
-            <option value="none" disabled>
-              Move to...
-            </option>
-            <option value="currentlyReading">Currently Reading</option>
-            <option value="wantToRead">Want to Read</option>
-            <option value="read">Read</option>
-            <option value="none">None</option>
-          </select>
-        </div>
+        <BookOption shelf={book.shelf} book={book} />
       </div>
       <div className="book-title">{book.title}</div>
       <div className="book-authors">{book.authors}</div>

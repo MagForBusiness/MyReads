@@ -6,14 +6,14 @@ import * as BooksAPI from "../BooksAPI";
 const SearchPage = () => {
   const [Books, setBooks] = useState([]);
   const [query, setQuery] = useState("");
-  let navigate = useNavigate();
+  const [shelf, setShelf] = useState("");
+
   //initialize dATA
   const searchresult = async (query) => {
     setQuery(query.trim());
     const res = await BooksAPI.search(query);
-    console.log(res.error);
     if (res.error !== "empty query") {
-      setBooks(res); // ***to do set a shelf to every res
+      setBooks(res);
     } else {
       setBooks([]);
     }
@@ -22,14 +22,15 @@ const SearchPage = () => {
     if (query === "") {
       setBooks([]);
     } else {
-      searchresult(query ||" ");
+      searchresult(query);
     }
   };
 
-
-  const UpdateShelve = async (b, shelve) => {
-    await BooksAPI.update(b, shelve);
-    navigate("/");
+  
+  // get book shelf from API
+  const GetShelfAPI = async (id) => {
+    const BookDetail = await BooksAPI.get(id);
+    setShelf(BookDetail.shelf);
   };
 
   return (
@@ -50,9 +51,12 @@ const SearchPage = () => {
       <div className="search-books-results">
         <ol className="books-grid">
           {Books.map((book) => {
+            GetShelfAPI(book.id);
+            const BookWithshelf = { ...book, shelf: shelf };
+            console.log(JSON.stringify(BookWithshelf));
             return (
               <li key={book.id}>
-                <Book book={book} UpdateShelve={UpdateShelve} />
+                <Book book={BookWithshelf}  />
               </li>
             );
           })}
