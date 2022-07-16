@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Book from "./Book";
 import * as BooksAPI from "../BooksAPI";
 
@@ -13,7 +13,7 @@ const SearchPage = () => {
     const res = await BooksAPI.search(query);
     console.log(res.error);
     if (res.error !== "empty query") {
-      setBooks(res);
+      setBooks(res); // ***to do set a shelf to every res
     } else {
       setBooks([]);
     }
@@ -22,13 +22,10 @@ const SearchPage = () => {
     if (query === "") {
       setBooks([]);
     } else {
-      searchresult(query);
+      searchresult(query ||" ");
     }
   };
 
-  // const clearQuery = () => {
-  //   updateQuery("");
-  // };
 
   const UpdateShelve = async (b, shelve) => {
     await BooksAPI.update(b, shelve);
