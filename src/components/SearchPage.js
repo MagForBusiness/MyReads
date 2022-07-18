@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import Book from "./Book";
 import * as BooksAPI from "../BooksAPI";
@@ -25,8 +25,6 @@ const SearchPage = () => {
       searchresult(query);
     }
   };
-
-  
   // get book shelf from API
   const GetShelfAPI = async (id) => {
     const BookDetail = await BooksAPI.get(id);
@@ -53,10 +51,9 @@ const SearchPage = () => {
           {Books.map((book) => {
             GetShelfAPI(book.id);
             const BookWithshelf = { ...book, shelf: shelf };
-            console.log(JSON.stringify(BookWithshelf));
             return (
               <li key={book.id}>
-                <Book book={BookWithshelf}  />
+                <Book book={BookWithshelf} />
               </li>
             );
           })}

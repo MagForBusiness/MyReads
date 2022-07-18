@@ -1,9 +1,15 @@
-import { useState } from "react";
 import React from "react";
-import {BookOption} from "./BookOption"
+import { BookOption } from "./BookOption";
+import * as BooksAPI from "../BooksAPI";
+const Book = ({ book }) => {
+  const UpdateShelve = async (book, Select) => {
+    await BooksAPI.update(book, Select);
+  };
 
-const Book = ({ book,  }) => {
-  
+  const GetSelectedBook = (selectedShelf) => {
+    console.log(selectedShelf);
+    UpdateShelve(book, selectedShelf);
+  };
 
   return (
     <div className="book">
@@ -21,7 +27,7 @@ const Book = ({ book,  }) => {
             })`,
           }}
         ></div>
-        <BookOption shelf={book.shelf} book={book} />
+        <BookOption shelf={book.shelf} GetSelectedBook={GetSelectedBook} />
       </div>
       <div className="book-title">{book.title}</div>
       <div className="book-authors">{book.authors}</div>
