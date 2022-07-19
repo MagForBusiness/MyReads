@@ -6,7 +6,7 @@ import * as BooksAPI from "../BooksAPI";
 const SearchPage = () => {
   const [Books, setBooks] = useState([]);
   const [Query, setQuery] = useState("");
-  const [shelf, setShelf] = useState("");
+
   let navigate = useNavigate();
   //initialize dATA
  
@@ -33,14 +33,7 @@ const SearchPage = () => {
       searchresult(query);
     }
   };
-  // get book shelf from API
-  const GetShelfAPI = async (id) => {
-    
-    const BookDetail = await BooksAPI.get(id);
-    // setLoadData(false);
-    setShelf(BookDetail.shelf);
-  };
-
+  
   return (
     <div className="search-books">
       <div className="search-books-bar">
