@@ -1,7 +1,7 @@
 import React from "react";
 import { BookOption } from "./BookOption";
 import * as BooksAPI from "../BooksAPI";
-const Book = ({ book }) => {
+const Book = ({ book, shelfChange }) => {
   const UpdateShelve = async (book, Select) => {
     await BooksAPI.update(book, Select);
   };
@@ -9,6 +9,7 @@ const Book = ({ book }) => {
   const GetSelectedBook = (selectedShelf) => {
     console.log(selectedShelf);
     UpdateShelve(book, selectedShelf);
+    shelfChange();
   };
 
   return (

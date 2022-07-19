@@ -10,16 +10,18 @@ const App = () => {
   const [Books, setBooks] = useState([]);
   let navigate = useNavigate();
   //initialize dATA
-  useEffect(() => {
-    const getBooks = async () => {
-      const res = await BooksAPI.getAll();
-      setBooks(res);
-    };
+  const getBooks = async () => {
+    const res = await BooksAPI.getAll();
+    setBooks(res);
+  };
+
+  useEffect(() => { 
+    
     getBooks();
   }, []);
-  //handel update
-  const UpdateShelve = async (b, shelve) => {
-    await BooksAPI.update(b, shelve);
+  // handel update
+  const shelfChange =  () => {
+    getBooks();
     navigate("/");
   };
   return (
@@ -45,7 +47,7 @@ const App = () => {
                             (b) => b.shelf === "currentlyReading"
                           ).map((bookE) => (
                             <li key={bookE.id}>
-                              <Book book={bookE} UpdateShelve={UpdateShelve} />
+                              <Book book={bookE} shelfChange={shelfChange} />
                             </li>
                           ))}
                         </ol>
@@ -58,10 +60,7 @@ const App = () => {
                           {Books.filter((b) => b.shelf === "wantToRead").map(
                             (bookE) => (
                               <li key={bookE.id}>
-                                <Book
-                                  book={bookE}
-                                  UpdateShelve={UpdateShelve}
-                                />
+                                <Book book={bookE} shelfChange={shelfChange} />
                               </li>
                             )
                           )}
@@ -75,10 +74,7 @@ const App = () => {
                           {Books.filter((b) => b.shelf === "read").map(
                             (bookE) => (
                               <li key={bookE.id}>
-                                <Book
-                                  book={bookE}
-                                  UpdateShelve={UpdateShelve}
-                                />
+                                <Book book={bookE} shelfChange={shelfChange} />
                               </li>
                             )
                           )}
