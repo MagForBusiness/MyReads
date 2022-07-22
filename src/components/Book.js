@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { BookOption } from "./BookOption";
 import * as BooksAPI from "../BooksAPI";
-const Book = ({ book }) => {
+
+const Book = ({ book, shelfChange }) => {
+  // const [shelf, setShelf] = useState(book.shelf);
+  // get book shelf from API
+  const GetShelfAPI = async (id) => {
+     await BooksAPI.get(id);
+    // setShelf(BookDetail.shelf);
+  };
+
+  // GetShelfAPI(book.id);
+  // const BookWithshelf = { ...book, shelf: shelf };
   const UpdateShelve = async (book, Select) => {
     await BooksAPI.update(book, Select);
   };
@@ -9,6 +19,7 @@ const Book = ({ book }) => {
   const GetSelectedBook = (selectedShelf) => {
     console.log(selectedShelf);
     UpdateShelve(book, selectedShelf);
+    shelfChange();
   };
 
   return (
@@ -32,7 +43,7 @@ const Book = ({ book }) => {
       <div className="book-title">{book.title}</div>
       <div className="book-authors">{book.authors}</div>
       <div className="book-authors">{book.id} </div>
-      <div className="book-authors">{book.shelf} </div>
+      <div className="book-authors">{GetShelfAPI(book.id)} </div>
     </div>
   );
 };
