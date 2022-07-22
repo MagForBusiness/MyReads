@@ -10,16 +10,16 @@ const App = () => {
   const [Books, setBooks] = useState([]);
   let navigate = useNavigate();
   //initialize dATA
-  useEffect(() =>  { 
-       const getBooks = async () => {
-       const res = await BooksAPI.getAll();
-       console.log(res);  
-       setBooks(res);
-     }; 
+  useEffect(() => {
+    const getBooks = async () => {
+      const res = await BooksAPI.getAll();
+      // console.log(res);
+      setBooks(res);
+    };
     getBooks();
   }, []);
   // handel update
-  const shelfChange =  () => {
+  const shelfChange = () => {
     // getBooks();
     navigate("/");
   };
