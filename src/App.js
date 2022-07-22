@@ -16,8 +16,7 @@ const App = () => {
       // console.log(res);
       setBooks(res);
     };
-    console.log(res);
-    getBooks();
+   
   }, []);
   // handel update
   const shelfChange = () => {
