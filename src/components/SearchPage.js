@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Book from "./Book";
 import * as BooksAPI from "../BooksAPI";
 
 const SearchPage = () => {
   const [Books, setBooks] = useState([]);
-  const [Query, setQuery] = useState("");
+  // eslint-disable-next-line no-unused-vars
+  const [Query,setQuery] = useState("");
 
   const searchresult = async (query) => {
     setQuery(query);

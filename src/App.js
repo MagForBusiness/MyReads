@@ -2,7 +2,7 @@
 import "./App.css";
 import React from "react";
 import { useState, useEffect } from "react";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import SearchPage from "./components/SearchPage";
 import Book from "./components/Book";
 import * as BooksAPI from "./BooksAPI";

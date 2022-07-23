@@ -13,7 +13,7 @@ export const BookOption = ({ shelf, GetSelectedBook }) => {
   //    }
   //  }, []);
   const handleChange = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     GetSelectedBook(event.target.value);
     // UpdateShelve(book, Select);
   };

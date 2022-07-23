@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { BookOption } from "./BookOption";
 import * as BooksAPI from "../BooksAPI";
 
@@ -11,7 +11,7 @@ const Book = ({ book }) => {
     };
   useLayoutEffect(() => {
     if (!book.shelf) {
-      console.log(book.id);
+      // console.log(book.id);
       // const newSelf = getShelf(book.id);
       getShelf(book.id);
       // setshelfAdd(newSelf);
