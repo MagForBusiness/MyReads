@@ -1,33 +1,24 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useCallback } from "react";
 import { BookOption } from "./BookOption";
 import * as BooksAPI from "../BooksAPI";
 
 const Book = ({ book }) => {
   const [shelfAdd, setshelfAdd] = useState(book.shelf);
-    const getShelf = async (boId) => {
-      const GetBook = await BooksAPI.get(boId);
-      // return `{"shelf" : "${GetBook.shelf}"}`;
-      setshelfAdd(GetBook.shelf);
-    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const getShelf = useCallback(async (boId) => {
+    const GetBook = await BooksAPI.get(boId);
+    setshelfAdd(GetBook.shelf);
+    // return GetBook.shelf;
+  });
   useLayoutEffect(() => {
     if (!book.shelf) {
-      // console.log(book.id);
-      // const newSelf = getShelf(book.id);
       getShelf(book.id);
-      // setshelfAdd(newSelf);
+      // setshelfAdd("none");
     } else {
       setshelfAdd(book.shelf);
     } //
-    // console.log(shelfAdd);
-  }, [book, shelfAdd]);
+  }, [book, getShelf]);
 
-  // console.log(book.shelf);
-
- 
-  
-  // console.log(book.shelf);
-
-  // console.log(book.shelf);
   return (
     <div className="book">
       <div className="book-top">
@@ -44,11 +35,7 @@ const Book = ({ book }) => {
             })`,
           }}
         ></div>
-        <BookOption
-          shelf={shelfAdd}
-          bookID={book.id}
-          book={book}
-        />
+        <BookOption shelf={shelfAdd} bookID={book.id} book={book} />
       </div>
       <div className="book-title">{book.title}</div>
       <div className="book-authors">{book.authors}</div>

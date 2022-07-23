@@ -1,12 +1,17 @@
-import React, { useState, useLayoutEffect, useEffect } from "react";
+import React, {
+  useState,
+  useLayoutEffect,
+  useEffect,
+  useCallback,
+} from "react";
 import * as BooksAPI from "../BooksAPI";
 // import * as BooksAPI from "../BooksAPI";
 export const BookOption = ({ shelf, book }) => {
   const [Select, setSelect] = useState(shelf);
-
+  // console.log(Select);
   const UpdateShelve = async (b, s) => {
     await BooksAPI.update(b, s);
-    setSelect(s);
+    // setSelect(s);
   };
 
   const GetSelectedBook = (selectedShelf) => {
@@ -15,11 +20,12 @@ export const BookOption = ({ shelf, book }) => {
     
   };
 
-  const handleChange = (event) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleChange = useCallback((event) => {
     GetSelectedBook(event.target.value);
     setSelect( event.target.value);
    
-  };
+  });
 
   useLayoutEffect(() => {}, [handleChange]);
 
