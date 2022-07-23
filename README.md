@@ -1,6 +1,6 @@
 # MyReads
  
-## Front End Project  React
+## Front End Project with React
 
 ​
 
