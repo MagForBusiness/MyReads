@@ -23,14 +23,8 @@ const Book = ({ book }) => {
 
   // console.log(book.shelf);
 
-  const UpdateShelve = async (book, Select) => {
-    await BooksAPI.update(book, Select);
-  };
-
-  const GetSelectedBook = (selectedShelf) => {
-    // console.log(selectedShelf);
-    UpdateShelve(book, selectedShelf);
-  };
+ 
+  
   // console.log(book.shelf);
 
   // console.log(book.shelf);
@@ -52,8 +46,8 @@ const Book = ({ book }) => {
         ></div>
         <BookOption
           shelf={shelfAdd}
-          GetSelectedBook={GetSelectedBook}
           bookID={book.id}
+          book={book}
         />
       </div>
       <div className="book-title">{book.title}</div>

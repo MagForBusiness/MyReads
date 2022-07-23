@@ -1,29 +1,31 @@
-import React from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
+import * as BooksAPI from "../BooksAPI";
 // import * as BooksAPI from "../BooksAPI";
-export const BookOption = ({ shelf, GetSelectedBook }) => {
-  // const [Select, setSelect] = useState(shelf)
+export const BookOption = ({ shelf, book }) => {
+  const [Select, setSelect] = useState(shelf);
 
-  //  useRef(() => {
-  //    if (!shelf) {
-  //      const shelfSelected = async (id) => {
-  //        const GetBook = await BooksAPI.get(id);
-  //        return GetBook.shelf;
-  //      };
-  //      setSelect(shelfSelected(bookID));
-  //    }
-  //  }, []);
-  const handleChange = (event) => {
-    // console.log(event.target.value);
-    GetSelectedBook(event.target.value);
-    // UpdateShelve(book, Select);
+  const UpdateShelve = async (b, s) => {
+    await BooksAPI.update(b, s);
+    setSelect(s);
   };
-  
-  
- 
+
+  const GetSelectedBook = (selectedShelf) => {
+    // console.log(selectedShelf);
+    UpdateShelve(book, selectedShelf);
+    
+  };
+
+  const handleChange = (event) => {
+    GetSelectedBook(event.target.value);
+    setSelect( event.target.value);
+   
+  };
+
+  useLayoutEffect(() => {}, [handleChange]);
 
   return (
     <div className="book-shelf-changer">
-      <select value={shelf} onChange={handleChange}>
+      <select value={Select} onChange={handleChange}>
         <option value="Moveto" disabled>
           Move to...
         </option>

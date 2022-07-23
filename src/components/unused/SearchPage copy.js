@@ -25,7 +25,7 @@ const SearchPage = () => {
 
   const UpdateShelve = async (b, shelve) => {
     await BooksAPI.update(b, shelve);
-    navigate("/");
+    // navigate("/");
   };
   const showingBooks =
     query === ""
