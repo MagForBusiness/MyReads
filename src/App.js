@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./App.css";
 import React from "react";
 import { useState, useEffect } from "react";
@@ -8,21 +9,28 @@ import * as BooksAPI from "./BooksAPI";
 
 const App = () => {
   const [Books, setBooks] = useState([]);
-  let navigate = useNavigate();
+
   //initialize dATA
+  const UpdateShelve = async (b, shelve) => {
+    
+    await BooksAPI.update(b, shelve);
+  };
+
   useEffect(() => {
     const getBooks = async () => {
       const res = await BooksAPI.getAll();
-      // console.log(res);
       setBooks(res);
     };
-   
-  }, []);
-  // handel update
-  const shelfChange = () => {
-    // getBooks();
-    navigate("/");
-  };
+    getBooks();
+  }, [UpdateShelve]);
+  // const getShelf = async (bo) => {
+  //   // const GetBook = await BooksAPI.get(bo);
+  //   // return `{"shelf" : "${GetBook.shelf}"}`;
+  //   return bo;
+  // };
+  //handel update
+  
+  
   return (
     <>
       <Routes>
@@ -46,7 +54,12 @@ const App = () => {
                             (b) => b.shelf === "currentlyReading"
                           ).map((bookE) => (
                             <li key={bookE.id}>
-                              <Book book={bookE} shelfChange={shelfChange} />
+                              <Book
+                                book={bookE}
+                                UpdateShelve={UpdateShelve}
+                                // getShelf={getShelf}
+                                // shelfSelected={shelfSelected}
+                              />
                             </li>
                           ))}
                         </ol>
@@ -59,7 +72,11 @@ const App = () => {
                           {Books.filter((b) => b.shelf === "wantToRead").map(
                             (bookE) => (
                               <li key={bookE.id}>
-                                <Book book={bookE} shelfChange={shelfChange} />
+                                <Book
+                                  book={bookE}
+                                  UpdateShelve={UpdateShelve}
+                                  // shelfSelected={shelfSelected}
+                                />
                               </li>
                             )
                           )}
@@ -73,7 +90,11 @@ const App = () => {
                           {Books.filter((b) => b.shelf === "read").map(
                             (bookE) => (
                               <li key={bookE.id}>
-                                <Book book={bookE} shelfChange={shelfChange} />
+                                <Book
+                                  book={bookE}
+                                  UpdateShelve={UpdateShelve}
+                                  // shelfSelected={shelfSelected}
+                                />
                               </li>
                             )
                           )}

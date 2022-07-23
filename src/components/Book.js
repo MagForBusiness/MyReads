@@ -1,27 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
 import { BookOption } from "./BookOption";
 import * as BooksAPI from "../BooksAPI";
 
-const Book = ({ book, shelfChange }) => {
-  // const [shelf, setShelf] = useState(book.shelf);
-  // get book shelf from API
-  const GetShelfAPI = async (id) => {
-     await BooksAPI.get(id);
-    // setShelf(BookDetail.shelf);
-  };
+const Book = ({ book }) => {
+  const [shelfAdd, setshelfAdd] = useState(book.shelf);
+    const getShelf = async (boId) => {
+      const GetBook = await BooksAPI.get(boId);
+      // return `{"shelf" : "${GetBook.shelf}"}`;
+      setshelfAdd(GetBook.shelf);
+    };
+  useLayoutEffect(() => {
+    if (!book.shelf) {
+      console.log(book.id);
+      // const newSelf = getShelf(book.id);
+      getShelf(book.id);
+      // setshelfAdd(newSelf);
+    } else {
+      setshelfAdd(book.shelf);
+    } //
+    // console.log(shelfAdd);
+  }, [book, shelfAdd]);
 
-  // GetShelfAPI(book.id);
-  // const BookWithshelf = { ...book, shelf: shelf };
+  // console.log(book.shelf);
+
   const UpdateShelve = async (book, Select) => {
     await BooksAPI.update(book, Select);
   };
 
   const GetSelectedBook = (selectedShelf) => {
-    console.log(selectedShelf);
+    // console.log(selectedShelf);
     UpdateShelve(book, selectedShelf);
-    shelfChange();
   };
+  // console.log(book.shelf);
 
+  // console.log(book.shelf);
   return (
     <div className="book">
       <div className="book-top">
@@ -38,12 +50,16 @@ const Book = ({ book, shelfChange }) => {
             })`,
           }}
         ></div>
-        <BookOption shelf={book.shelf} GetSelectedBook={GetSelectedBook} />
+        <BookOption
+          shelf={shelfAdd}
+          GetSelectedBook={GetSelectedBook}
+          bookID={book.id}
+        />
       </div>
       <div className="book-title">{book.title}</div>
       <div className="book-authors">{book.authors}</div>
       <div className="book-authors">{book.id} </div>
-      <div className="book-authors">{GetShelfAPI(book.id)} </div>
+      <div className="book-authors">{shelfAdd} </div>
     </div>
   );
 };

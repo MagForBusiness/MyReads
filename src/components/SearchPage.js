@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import Book from "./Book";
 import * as BooksAPI from "../BooksAPI";
 
@@ -7,33 +7,23 @@ const SearchPage = () => {
   const [Books, setBooks] = useState([]);
   const [Query, setQuery] = useState("");
 
-  let navigate = useNavigate();
-  //initialize dATA
- 
-  
   const searchresult = async (query) => {
     setQuery(query);
     const res = await BooksAPI.search(query.trim());
-   
     if (res.error !== "empty query") {
       setBooks(res);
     } else {
       setBooks([]);
     }
   };
-  const shelfChange = () => {
-    navigate("/search");
-  };
   const fillBooks = (query) => {
     if (query === "") {
-   
       setBooks([]);
     } else {
- 
       searchresult(query);
     }
   };
-  
+
   return (
     <div className="search-books">
       <div className="search-books-bar">
@@ -51,16 +41,13 @@ const SearchPage = () => {
       </div>
       <div className="search-books-results">
         <ol className="books-grid">
-          {
-            Books.map((book) => {
-              // GetShelfAPI(book.id);
-              // const BookWithshelf = { ...book, shelf: shelf };
-              return (
-                <li key={book.id}>
-                  <Book book={book} shelfChange={shelfChange} />
-                </li>
-              );
-            })}
+          {Books.map((book) => {
+            return (
+              <li key={book.id}>
+                <Book book={book} />
+              </li>
+            );
+          })}
         </ol>
       </div>
     </div>
