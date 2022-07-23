@@ -9,7 +9,7 @@ const SearchPage = () => {
   const [Query,setQuery] = useState("");
 
   const searchresult = async (query) => {
-    setQuery(query);
+    // setQuery(query.trim());
     const res = await BooksAPI.search(query.trim());
     if (res.error !== "empty query") {
       setBooks(res);
