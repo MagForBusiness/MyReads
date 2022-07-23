@@ -4,20 +4,20 @@ import * as BooksAPI from "../BooksAPI";
 
 const Book = ({ book }) => {
   const [shelfAdd, setshelfAdd] = useState(book.shelf);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const getShelf = useCallback(async (boId) => {
-    const GetBook = await BooksAPI.get(boId);
-    setshelfAdd(GetBook.shelf);
-    // return GetBook.shelf;
-  });
+
+  //  console.log(shelfAdd);
   useLayoutEffect(() => {
     if (!book.shelf) {
-      getShelf(book.id);
-      // setshelfAdd("none");
-    } else {
-      setshelfAdd(book.shelf);
-    } //
-  }, [book, getShelf]);
+      const getShelf = async (id) => {
+      const bookWithshelf = await BooksAPI.get(id);
+      setshelfAdd(bookWithshelf.shelf);
+      console.log(bookWithshelf.shelf);
+      };
+      // console.log(getShelf(book.id).shelf);
+     getShelf(book.id);
+    }
+    
+  }, [book]);
 
   return (
     <div className="book">
