@@ -1,23 +1,8 @@
-import React, { useState, useLayoutEffect, useCallback } from "react";
+import React from "react";
 import { BookOption } from "./BookOption";
-import * as BooksAPI from "../BooksAPI";
 
 const Book = ({ book }) => {
-  const [shelfAdd, setshelfAdd] = useState(book.shelf);
-
-  //  console.log(shelfAdd);
-  useLayoutEffect(() => {
-    if (!book.shelf) {
-      const getShelf = async (id) => {
-      const bookWithshelf = await BooksAPI.get(id);
-      setshelfAdd(bookWithshelf.shelf);
-      console.log(bookWithshelf.shelf);
-      };
-      // console.log(getShelf(book.id).shelf);
-     getShelf(book.id);
-    }
-    
-  }, [book]);
+  
 
   return (
     <div className="book">
@@ -35,12 +20,10 @@ const Book = ({ book }) => {
             })`,
           }}
         ></div>
-        <BookOption shelf={shelfAdd} bookID={book.id} book={book} />
+        <BookOption  bookID={book.id} book={book} />
       </div>
       <div className="book-title">{book.title}</div>
       <div className="book-authors">{book.authors}</div>
-      <div className="book-authors">{book.id} </div>
-      <div className="book-authors">{shelfAdd} </div>
     </div>
   );
 };

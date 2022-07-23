@@ -1,32 +1,36 @@
-import React, {
-  useState,
-  useLayoutEffect,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { useState, useLayoutEffect, useCallback } from "react";
 import * as BooksAPI from "../BooksAPI";
-// import * as BooksAPI from "../BooksAPI";
-export const BookOption = ({ shelf, book }) => {
-  const [Select, setSelect] = useState(shelf);
-  // console.log(Select);
+
+export const BookOption = ({ book }) => {
+  const [Select, setSelect] = useState(book.shelf);
+
+  //  Get shelf options
+  useLayoutEffect(() => {
+    if (!book.shelf) {
+      const getShelf = async (id) => {
+        const bookWithshelf = await BooksAPI.get(id);
+        setSelect(bookWithshelf.shelf);
+      };
+
+      getShelf(book.id);
+    }
+  }, [book, Select]);
+
   const UpdateShelve = async (b, s) => {
     await BooksAPI.update(b, s);
-    // setSelect(s);
   };
 
   const GetSelectedBook = (selectedShelf) => {
     // console.log(selectedShelf);
     UpdateShelve(book, selectedShelf);
-    
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleChange = useCallback((event) => {
     GetSelectedBook(event.target.value);
-    setSelect( event.target.value);
-   
+    setSelect(event.target.value);
   });
-
+  //manage Ui response after handleChange
   useLayoutEffect(() => {}, [handleChange]);
 
   return (

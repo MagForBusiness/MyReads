@@ -6,11 +6,10 @@ import * as BooksAPI from "../BooksAPI";
 const SearchPage = () => {
   const [Books, setBooks] = useState([]);
   // eslint-disable-next-line no-unused-vars
-  const [Query,setQuery] = useState("");
-
+  const [Query, setQuery] = useState("");
+  // search method
   const searchresult = async (query) => {
-    // setQuery(query.trim());
-    const res = await BooksAPI.search(query.trim());
+     const res = await BooksAPI.search(query.trim());
     if (res.error !== "empty query") {
       setBooks(res);
     } else {
